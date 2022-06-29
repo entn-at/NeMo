@@ -104,12 +104,10 @@ def get_tarred_classification_label_dataset(
             max_duration=config.get('max_duration', None),
             min_duration=config.get('min_duration', None),
             trim=config.get('trim_silence', False),
-            window_length_in_sec=config.get('window_length_in_sec', 8),
-            shift_length_in_sec=config.get('shift_length_in_sec', 0.075),
-            normalize_audio=config.get('normalize_audio', False),
             shard_strategy=config.get('tarred_shard_strategy', 'scatter'),
             global_rank=global_rank,
             world_size=world_size,
+            is_regression_task=config.get('is_regression_task', False),
         )
 
         datasets.append(dataset)
