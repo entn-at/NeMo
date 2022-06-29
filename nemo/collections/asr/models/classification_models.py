@@ -233,7 +233,10 @@ class _EncDecBaseModel(ASRModel, ExportableEncDecModel):
             )
             shuffle = False
             batch_size = config['batch_size']
-            collate_func = dataset.collate_fn
+            if hasattr(dataset, 'collate_fn'):
+                collate_func = dataset.collate_fn
+            else:
+                collate_func = dataset.datasets[0].collate_fn
 
         else:
             if 'manifest_filepath' in config and config['manifest_filepath'] is None:
@@ -252,7 +255,10 @@ class _EncDecBaseModel(ASRModel, ExportableEncDecModel):
                     featurizer=featurizer, config=config
                 )
                 batch_size = config['batch_size']
-                collate_func = dataset.collate_fn
+                if hasattr(dataset, 'collate_fn'):
+                    collate_func = dataset.collate_fn
+                else:
+                    collate_func = dataset.datasets[0].collate_fn
 
         return torch.utils.data.DataLoader(
             dataset=dataset,
